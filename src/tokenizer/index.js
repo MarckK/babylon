@@ -3,7 +3,7 @@
 // @flow
 
 import type { Options } from "../options";
-import type { Position } from "../util/location";
+import type { Position, SourceLocation } from "../util/location";
 import {
   isIdentifierStart,
   isIdentifierChar,
@@ -12,7 +12,6 @@ import {
 import { types as tt, keywords as keywordTypes, type TokenType } from "./types";
 import { type TokContext, types as ct } from "./context";
 import LocationParser from "../parser/location";
-import { SourceLocation } from "../util/location";
 import {
   lineBreak,
   lineBreakG,
@@ -53,7 +52,10 @@ export class Token {
     this.value = state.value;
     this.start = state.start;
     this.end = state.end;
-    this.loc = new SourceLocation(state.startLoc, state.endLoc);
+    this.loc = {
+      start: state.startLoc,
+      end: state.endLoc,
+    };
   }
 
   type: TokenType;
@@ -213,7 +215,10 @@ export default class Tokenizer extends LocationParser {
       value: text,
       start: start,
       end: end,
-      loc: new SourceLocation(startLoc, endLoc),
+      loc: {
+        start: startLoc,
+        end: endLoc,
+      },
     };
 
     if (!this.isLookahead) {

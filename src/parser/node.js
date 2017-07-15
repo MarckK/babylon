@@ -2,7 +2,7 @@
 
 import Parser from "./index";
 import UtilParser from "./util";
-import { SourceLocation, type Position } from "../util/location";
+import type { SourceLocation, Position } from "../util/location";
 import type { Comment, Node as NodeType, NodeBase } from "../types";
 
 // Start an AST node, attaching a start offset.
@@ -14,8 +14,13 @@ class Node implements NodeBase {
     this.type = "";
     this.start = pos;
     this.end = 0;
-    this.loc = new SourceLocation(loc);
+    this.loc = {
+      start: loc,
+      // $FlowIgnore (may start as null, but initialized later)
+      end: undefined,
+    };
     if (parser && parser.options.ranges) this.range = [pos, 0];
+    // $FlowIgnore (only add if option is enabled)
     if (parser && parser.filename) this.loc.filename = parser.filename;
   }
 

@@ -14,18 +14,12 @@ export type Position = {
   column: number,
 };
 
-export class SourceLocation {
-  start: Position;
-  end: Position;
-  filename: string;
-  identifierName: ?string;
-
-  constructor(start: Position, end?: Position) {
-    this.start = start;
-    // $FlowIgnore (may start as null, but initialized later)
-    this.end = end;
-  }
-}
+export type SourceLocation = {
+  start: Position,
+  end: Position,
+  filename?: string,
+  identifierName?: string,
+};
 
 // The `getLineInfo` function is mostly useful when the
 // `locations` option is off (for performance reasons) and you
