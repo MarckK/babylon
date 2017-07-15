@@ -2,7 +2,7 @@
 
 import type { Options } from "../options";
 import * as N from "../types";
-import { Position } from "../util/location";
+import type { Position } from "../util/location";
 
 import { types as ct, type TokContext } from "./context";
 import type { Token } from "./index";
@@ -154,7 +154,10 @@ export default class State {
   invalidTemplateEscapePosition: ?number;
 
   curPosition(): Position {
-    return new Position(this.curLine, this.pos - this.lineStart);
+    return {
+      line: this.curLine,
+      column: this.pos - this.lineStart,
+    };
   }
 
   clone(skipArrays?: boolean): State {

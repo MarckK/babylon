@@ -9,15 +9,10 @@ export type Pos = {
 // These are used when `options.locations` is on, for the
 // `startLoc` and `endLoc` properties.
 
-export class Position {
-  line: number;
-  column: number;
-
-  constructor(line: number, col: number) {
-    this.line = line;
-    this.column = col;
-  }
-}
+export type Position = {
+  line: number,
+  column: number,
+};
 
 export class SourceLocation {
   start: Position;
@@ -46,7 +41,10 @@ export function getLineInfo(input: string, offset: number): Position {
       ++line;
       cur = match.index + match[0].length;
     } else {
-      return new Position(line, offset - cur);
+      return {
+        line,
+        column: offset - cur,
+      };
     }
   }
   // istanbul ignore next
